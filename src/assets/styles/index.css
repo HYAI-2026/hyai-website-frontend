@@ -1,0 +1,110 @@
+:root {
+  /* Brand colors */
+  --color-primary: #00457e;
+  --color-accent: #108ef5;
+
+  /* Text */
+  --color-text: #222222;
+  --color-text-muted: #777777;
+  --color-text-subtle: #999999;
+
+  /* Surfaces */
+  --color-bg: #ffffff;
+  --color-border: #dddddd;
+  --color-footer: #222222;
+
+  /* Layout */
+  --content-width: 1350px;
+  --content-padding: 285px;
+  --header-height: 170px;
+
+  /* Typography */
+  --font-base: 'Pretendard', 'Poppins', 'Malgun Gothic', sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-base);
+  color: var(--color-text);
+  background: var(--color-bg);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+/* Shared content container: centers the 1350px design area */
+.container {
+  width: 100%;
+  max-width: var(--content-width);
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* Reusable section heading block (eyebrow + title + description) */
+.section-head {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.section-head__eyebrow {
+  display: block;
+  color: var(--color-primary);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.42px;
+  margin-bottom: 8px;
+}
+
+.section-head__title {
+  font-size: 42px;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--color-text);
+}
+
+.section-head__desc {
+  margin-top: 16px;
+  color: var(--color-text-muted);
+  font-size: 17px;
+}
+
+@media (max-width: 768px) {
+  .section-head__title {
+    font-size: 30px;
+  }
+}
