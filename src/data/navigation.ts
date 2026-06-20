@@ -17,20 +17,20 @@ export const mainNav: NavItem[] = [
   },
   {
     label: '스터디',
-    href: '#programs',
+    href: '/study',
     children: [
-      { label: 'HYAI N주특강', href: '#programs-lecture' },
-      { label: '자율그룹스터디', href: '#programs-study' },
-      { label: '일일세미나', href: '#programs-seminar' },
-      { label: '야식사업세미나', href: '#programs-night-seminar' },
+      { label: 'HYAI N주특강', href: '/study' },
+      { label: '자율그룹스터디', href: '/study/group' },
+      { label: '일일세미나', href: '/study/seminar' },
+      { label: '야식사업세미나', href: '/study/night-seminar' },
     ],
   },
   {
     label: '초청강연',
-    href: '#lectures',
+    href: '/lectures',
     children: [
-      { label: '교수님 초청강연', href: '#lectures-professor' },
-      { label: '외부인 초청강연', href: '#lectures-external' },
+      { label: '교수님 초청강연', href: '/lectures' },
+      { label: '외부인 초청강연', href: '/lectures/external' },
     ],
   },
   {
@@ -64,7 +64,7 @@ export const topNav: NavItem[] = [
 export const quickMenu: QuickMenuItem[] = [
   { label: '학회소개', href: '/introduction', icon: '🎓' },
   { label: '활동소개', href: '/introduction/activities', icon: '📋' },
-  { label: '스터디', href: '#programs', icon: '📚' },
+  { label: '스터디', href: '/study', icon: '📚' },
   { label: '교류활동', href: '#exchange', icon: '🤝' },
   { label: '수상경력', href: '#activities-awards', icon: '🏆' },
 ]

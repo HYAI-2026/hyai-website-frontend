@@ -8,7 +8,11 @@ export default function ExecutivesPage() {
       <div className={styles.grid}>
         {executives.map((member) => (
           <article key={member.id} className={styles.card}>
-            <div className={styles.photo} aria-hidden="true" />
+            <img
+              className={styles.photo}
+              src={member.image}
+              alt={`${member.name} 프로필 사진`}
+            />
             <div className={styles.info}>
               <p className={styles.role}>{member.role}</p>
               <h3 className={styles.name}>{member.name}</h3>

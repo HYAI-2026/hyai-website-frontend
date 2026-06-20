@@ -1,9 +1,12 @@
+import profileImage from '../assets/images/profile.png'
+
 export interface Member {
   id: string
   role: string
   grade: string
   department: string
   name: string
+  image: string
 }
 
 export const membersNav = [
@@ -109,4 +112,4 @@ export const executives: Member[] = [
     department: '주얼리패션디자인학부',
     name: '이지안',
   },
-]
+].map((member) => ({ ...member, image: profileImage }))

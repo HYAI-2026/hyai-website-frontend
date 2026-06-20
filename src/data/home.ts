@@ -21,9 +21,9 @@ export const heroSlides: HeroSlide[] = [
   {
     id: 3,
     image: carousel3,
-    title: '세미나 기회 제공',
+    title: '수강자 맞춤형 스터디',
     description:
-      '모든 학회원들에게 세미나 기회를 제공하여\n경험을 쌓을 수 있도록 돕습니다.',
+      '수강자 수준에 맞춰 스터디를 진행하여\n결과물을 만드는데 집중합니다.',
   },
 ]
 

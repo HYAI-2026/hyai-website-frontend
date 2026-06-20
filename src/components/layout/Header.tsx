@@ -7,9 +7,23 @@ import styles from '../../assets/styles/Header.module.css'
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [openSection, setOpenSection] = useState<string | null>(null)
+  const [hoveredSection, setHoveredSection] = useState<string | null>(null)
 
   const toggleSection = (label: string) =>
     setOpenSection((cur) => (cur === label ? null : label))
+
+  const isDropdownOpen = (label: string) =>
+    openSection === label || hoveredSection === label
+
+  const handleNavItemEnter = (label: string) => {
+    if (window.matchMedia('(min-width: 901px)').matches) {
+      setHoveredSection(label)
+    }
+  }
+
+  const handleNavItemLeave = () => {
+    setHoveredSection(null)
+  }
 
   return (
     <header className={styles.header}>
@@ -48,8 +62,10 @@ export default function Header() {
               <div
                 key={item.label}
                 className={`${styles.navItem} ${
-                  openSection === item.label ? styles.navItemOpen : ''
+                  isDropdownOpen(item.label) ? styles.navItemActive : ''
                 }`}
+                onMouseEnter={() => handleNavItemEnter(item.label)}
+                onMouseLeave={handleNavItemLeave}
               >
                 <AppLink
                   href={item.href}

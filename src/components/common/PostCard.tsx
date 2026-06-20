@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import type { PostCard as PostCardType } from '../../types'
 import styles from '../../assets/styles/PostCard.module.css'
 
@@ -6,8 +7,10 @@ interface Props {
 }
 
 export default function PostCard({ post }: Props) {
-  return (
-    <a href={post.href} className={styles.card}>
+  const isInternal = post.href.startsWith('/')
+
+  const content = (
+    <>
       <div className={styles.thumb}>
         <img src={post.image} alt="" loading="lazy" />
       </div>
@@ -19,6 +22,20 @@ export default function PostCard({ post }: Props) {
           {post.date}
         </span>
       </div>
+    </>
+  )
+
+  if (isInternal) {
+    return (
+      <Link to={post.href} className={styles.card}>
+        {content}
+      </Link>
+    )
+  }
+
+  return (
+    <a href={post.href} className={styles.card}>
+      {content}
     </a>
   )
 }
