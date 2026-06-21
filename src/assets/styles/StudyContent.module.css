@@ -28,6 +28,31 @@
   gap: 24px;
 }
 
+.mogakcoGrid img {
+  object-position: center 20%;
+}
+
+.awardsSubheading {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: var(--color-text);
+}
+
+.awardsList {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding-left: 1.2em;
+  font-size: 17px;
+  line-height: 1.8;
+  color: var(--color-text-muted);
+}
+
+.awardsItem {
+  list-style-type: disc;
+}
+
 .detailThumb {
   aspect-ratio: 430 / 287;
   overflow: hidden;

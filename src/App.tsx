@@ -20,6 +20,19 @@ import LecturesLayout from './pages/lectures/LecturesLayout'
 import ProfessorLecturesPage from './pages/lectures/ProfessorLecturesPage'
 import ExternalLecturesPage from './pages/lectures/ExternalLecturesPage'
 import InvitedLectureDetailPage from './pages/lectures/InvitedLectureDetailPage'
+import ExchangeLayout from './pages/exchange/ExchangeLayout'
+import HaigoPage from './pages/exchange/HaigoPage'
+import MogakcoPage from './pages/exchange/MogakcoPage'
+import MtPage from './pages/exchange/MtPage'
+import ExchangeCardDetailPage from './pages/exchange/ExchangeCardDetailPage'
+import HaigoDetailPage from './pages/exchange/HaigoDetailPage'
+import MogakcoDetailPage from './pages/exchange/MogakcoDetailPage'
+import ActivitiesLayout from './pages/activities/ActivitiesLayout'
+import NewsPage from './pages/activities/NewsPage'
+import AwardsPage from './pages/activities/AwardsPage'
+import GalleryPage from './pages/activities/GalleryPage'
+import ActivityDetailPage from './pages/activities/ActivityDetailPage'
+import NewsDetailPage from './pages/activities/NewsDetailPage'
 
 export default function App() {
   return (
@@ -54,6 +67,21 @@ export default function App() {
             <Route path="professor/:itemId" element={<InvitedLectureDetailPage category="professor" />} />
             <Route path="external" element={<ExternalLecturesPage />} />
             <Route path="external/:itemId" element={<InvitedLectureDetailPage category="external" />} />
+          </Route>
+          <Route path="/exchange" element={<ExchangeLayout />}>
+            <Route index element={<HaigoPage />} />
+            <Route path="haigo/:itemId" element={<HaigoDetailPage />} />
+            <Route path="mogakco/:itemId" element={<MogakcoDetailPage />} />
+            <Route path="mogakco" element={<MogakcoPage />} />
+            <Route path="mt/:itemId" element={<ExchangeCardDetailPage category="mt" />} />
+            <Route path="mt" element={<MtPage />} />
+          </Route>
+          <Route path="/activities" element={<ActivitiesLayout />}>
+            <Route index element={<NewsPage />} />
+            <Route path="news/:itemId" element={<NewsDetailPage />} />
+            <Route path="awards" element={<AwardsPage />} />
+            <Route path="gallery/:itemId" element={<ActivityDetailPage category="gallery" />} />
+            <Route path="gallery" element={<GalleryPage />} />
           </Route>
         </Routes>
       </main>

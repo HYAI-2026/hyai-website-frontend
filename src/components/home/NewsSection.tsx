@@ -1,5 +1,5 @@
 import { useRef } from 'react'
-import { newsPosts } from '../../data/home'
+import { homeNewsPosts } from '../../data/news'
 import CardCarousel, { CarouselArrows } from '../common/CardCarousel'
 import type { CardCarouselHandle } from '../common/CardCarousel'
 import styles from '../../assets/styles/Section.module.css'
@@ -24,7 +24,7 @@ export default function NewsSection() {
             onNext={() => carouselRef.current?.scrollNext()}
           />
         </div>
-        <CardCarousel ref={carouselRef} posts={newsPosts} />
+        <CardCarousel ref={carouselRef} posts={homeNewsPosts} />
       </div>
     </section>
   )

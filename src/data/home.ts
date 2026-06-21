@@ -27,33 +27,6 @@ export const heroSlides: HeroSlide[] = [
   },
 ]
 
-export const newsPosts: PostCard[] = [
-  {
-    id: 1,
-    title: '내용을 채워주세요',
-    summary: '내용을 채워주세요',
-    date: '26.00.00',
-    image: 'https://placehold.co/430x287',
-    href: '#',
-  },
-  {
-    id: 2,
-    title: '내용을 채워주세요',
-    summary: '내용을 채워주세요',
-    date: '26.00.00',
-    image: 'https://placehold.co/430x287',
-    href: '#',
-  },
-  {
-    id: 3,
-    title: '내용을 채워주세요',
-    summary: '내용을 채워주세요',
-    date: '26.00.00',
-    image: 'https://placehold.co/430x287',
-    href: '#',
-  },
-]
-
 export const galleryPosts: PostCard[] = [
   {
     id: 1,

@@ -15,7 +15,7 @@ export default function PostCard({ post }: Props) {
         <img src={post.image} alt="" loading="lazy" />
       </div>
       <div className={styles.body}>
-        <h3 className={styles.title}>{post.title}</h3>
+        {post.title && <h3 className={styles.title}>{post.title}</h3>}
         {post.summary && <p className={styles.summary}>{post.summary}</p>}
         <span className={styles.date}>
           <CalendarIcon />

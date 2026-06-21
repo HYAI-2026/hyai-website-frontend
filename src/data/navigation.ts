@@ -35,21 +35,20 @@ export const mainNav: NavItem[] = [
   },
   {
     label: '교류활동',
-    href: '#exchange',
+    href: '/exchange',
     children: [
-      { label: 'HY-GO!', href: '#exchange-haigo' },
-      { label: '모각코', href: '#exchange-mogakco' },
-      { label: '개강/종강총회', href: '#exchange-assembly' },
-      { label: 'MT', href: '#exchange-mt' },
+      { label: 'HY-GO!', href: '/exchange' },
+      { label: '모각코', href: '/exchange/mogakco' },
+      { label: 'MT', href: '/exchange/mt' },
     ],
   },
   {
     label: '학회원 활동',
-    href: '#activities',
+    href: '/activities',
     children: [
-      { label: '학회 소식', href: '#activities-news' },
-      { label: '수상경력', href: '#activities-awards' },
-      { label: '협업', href: '#activities-collaboration' },
+      { label: '학회 소식', href: '/activities' },
+      { label: '수상경력', href: '/activities/awards' },
+      { label: '갤러리', href: '/activities/gallery' },
     ],
   },
 ]
@@ -65,6 +64,6 @@ export const quickMenu: QuickMenuItem[] = [
   { label: '학회소개', href: '/introduction', icon: '🎓' },
   { label: '활동소개', href: '/introduction/activities', icon: '📋' },
   { label: '스터디', href: '/study', icon: '📚' },
-  { label: '교류활동', href: '#exchange', icon: '🤝' },
-  { label: '수상경력', href: '#activities-awards', icon: '🏆' },
+  { label: '교류활동', href: '/exchange', icon: '🤝' },
+  { label: '수상경력', href: '/activities/awards', icon: '🏆' },
 ]
