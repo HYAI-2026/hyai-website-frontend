@@ -1,4 +1,4 @@
-import type { HeroSlide, PostCard } from '../types'
+import type { HeroSlide } from '../types'
 import carousel1 from '../assets/images/main-carousel/carousel1.jpeg'
 import carousel2 from '../assets/images/main-carousel/carousel2.jpeg'
 import carousel3 from '../assets/images/main-carousel/carousel3.jpeg'
@@ -24,32 +24,5 @@ export const heroSlides: HeroSlide[] = [
     title: '수강자 맞춤형 스터디',
     description:
       '수강자 수준에 맞춰 스터디를 진행하여\n결과물을 만드는데 집중합니다.',
-  },
-]
-
-export const galleryPosts: PostCard[] = [
-  {
-    id: 1,
-    title: '내용을 채워주세요',
-    summary: '내용을 채워주세요',
-    date: '26.00.00',
-    image: 'https://placehold.co/430x287',
-    href: '#',
-  },
-  {
-    id: 2,
-    title: '내용을 채워주세요',
-    summary: '내용을 채워주세요',
-    date: '26.00.00',
-    image: 'https://placehold.co/430x287',
-    href: '#',
-  },
-  {
-    id: 3,
-    title: '내용을 채워주세요',
-    summary: '내용을 채워주세요',
-    date: '26.00.00',
-    image: 'https://placehold.co/430x287',
-    href: '#',
   },
 ]

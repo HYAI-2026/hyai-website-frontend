@@ -31,7 +31,7 @@ import ActivitiesLayout from './pages/activities/ActivitiesLayout'
 import NewsPage from './pages/activities/NewsPage'
 import AwardsPage from './pages/activities/AwardsPage'
 import GalleryPage from './pages/activities/GalleryPage'
-import ActivityDetailPage from './pages/activities/ActivityDetailPage'
+import GalleryDetailPage from './pages/activities/GalleryDetailPage'
 import NewsDetailPage from './pages/activities/NewsDetailPage'
 
 export default function App() {
@@ -80,7 +80,7 @@ export default function App() {
             <Route index element={<NewsPage />} />
             <Route path="news/:itemId" element={<NewsDetailPage />} />
             <Route path="awards" element={<AwardsPage />} />
-            <Route path="gallery/:itemId" element={<ActivityDetailPage category="gallery" />} />
+            <Route path="gallery/:itemId" element={<GalleryDetailPage />} />
             <Route path="gallery" element={<GalleryPage />} />
           </Route>
         </Routes>

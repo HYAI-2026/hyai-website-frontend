@@ -1,4 +1,4 @@
-import { galleryPosts, getActivityDetailPath } from '../../data/activities'
+import { galleryItems, getGalleryDetailPath } from '../../data/gallery'
 import PostCard from '../../components/common/PostCard'
 import styles from '../../assets/styles/StudyContent.module.css'
 
@@ -7,16 +7,16 @@ export default function GalleryPage() {
     <section className={styles.panel}>
       <h2 className={styles.heading}>갤러리</h2>
       <div className={styles.lectureGrid}>
-        {galleryPosts.map((post, index) => (
+        {galleryItems.map((item, index) => (
           <PostCard
-            key={post.id}
+            key={item.id}
             post={{
               id: index + 1,
-              title: post.title,
-              summary: post.summary,
-              date: post.date,
-              image: post.image,
-              href: getActivityDetailPath('gallery', post.id),
+              title: item.title,
+              summary: item.description || undefined,
+              date: item.date,
+              image: item.image,
+              href: getGalleryDetailPath(item.id),
             }}
           />
         ))}

@@ -1,21 +1,8 @@
-import carousel1 from '../assets/images/main-carousel/carousel1.jpeg'
-import carousel2 from '../assets/images/main-carousel/carousel2.jpeg'
-import carousel3 from '../assets/images/main-carousel/carousel3.jpeg'
-
 export const activitiesNav = [
   { label: '학회 소식', path: '/activities' },
   { label: '수상경력', path: '/activities/awards' },
   { label: '갤러리', path: '/activities/gallery' },
 ] as const
-
-export interface ActivityPost {
-  id: string
-  title: string
-  summary: string
-  date: string
-  image: string
-  paragraphs: string[]
-}
 
 export type ActivityCategory = 'news' | 'awards' | 'gallery'
 
@@ -42,51 +29,6 @@ export const majorAwards = [
   '2025 한양또래튜터링 최우수, 우수 🥇🥈',
   '2025 지능형로봇사업단 WE-MEET 경진대회 장려(3위) 🥈',
 ] as const
-
-export const galleryPosts: ActivityPost[] = [
-  {
-    id: 'gallery-2026-hear',
-    title: 'HEAR 연합행사',
-    summary: 'HYAI, Jaram, HY-END',
-    date: '26.05.31',
-    image: carousel2,
-    paragraphs: [
-      'HYAI&Jaram&HY-END 연합행사 HEAR 현장 사진입니다.',
-    ],
-  },
-  {
-    id: 'gallery-2026-haigo',
-    title: 'HY-GO! 활동',
-    summary: 'HYAI 학회원',
-    date: '26.03~26.05',
-    image: carousel1,
-    paragraphs: [
-      'HY-GO! 조별 활동 사진입니다.',
-    ],
-  },
-  {
-    id: 'gallery-2026-study',
-    title: '스터디 활동',
-    summary: 'HYAI N주특강',
-    date: '26.03~26.05',
-    image: carousel3,
-    paragraphs: [
-      'HYAI N주특강 및 스터디 활동 사진입니다.',
-    ],
-  },
-]
-
-const activityPostLists: Record<'gallery', ActivityPost[]> = {
-  gallery: galleryPosts,
-}
-
-export function getActivityPost(category: 'gallery', id: string | undefined) {
-  return activityPostLists[category].find((item) => item.id === id)
-}
-
-export function getActivityDetailPath(category: 'gallery', id: string) {
-  return `/activities/${category}/${id}`
-}
 
 function isNewsPath(pathname: string) {
   return pathname === '/activities' || pathname.startsWith('/activities/news/')
