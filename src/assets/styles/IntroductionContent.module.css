@@ -96,6 +96,10 @@
 }
 
 .activityItem {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
   padding: 20px 18px;
   border-radius: 12px;
   background: #f8f9fb;
@@ -104,6 +108,10 @@
   font-weight: 600;
   color: var(--color-text);
   text-align: center;
+}
+
+.activityName {
+  line-height: 1.4;
 }
 
 @media (max-width: 768px) {

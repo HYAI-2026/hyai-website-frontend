@@ -16,7 +16,7 @@ export const mainNav: NavItem[] = [
     children: [{ label: '5기 임원진', href: '/members' }],
   },
   {
-    label: '스터디',
+    label: '학술활동',
     href: '/study',
     children: [
       { label: 'HYAI N주특강', href: '/study' },
@@ -63,7 +63,7 @@ export const topNav: NavItem[] = [
 export const quickMenu: QuickMenuItem[] = [
   { label: '학회소개', href: '/introduction', icon: '🎓' },
   { label: '활동소개', href: '/introduction/activities', icon: '📋' },
-  { label: '스터디', href: '/study', icon: '📚' },
+  { label: '학술활동', href: '/study', icon: '📚' },
   { label: '교류활동', href: '/exchange', icon: '🤝' },
   { label: '수상경력', href: '/activities/awards', icon: '🏆' },
 ]
