@@ -1,9 +1,11 @@
-import { executives } from '../../data/members'
+import StructuredData from '../../components/common/StructuredData'
+import { executives, membersStructuredData } from '../../data/members'
 import styles from '../../assets/styles/MembersContent.module.css'
 
 export default function ExecutivesPage() {
   return (
     <section className={styles.panel}>
+      <StructuredData data={membersStructuredData} />
       <h2 className={styles.heading}>5기 임원진</h2>
       <div className={styles.grid}>
         {executives.map((member) => (

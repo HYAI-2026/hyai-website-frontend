@@ -80,3 +80,20 @@ export const activityItems: ActivityItem[] = [
       '학회원 4명에게 신청 받아 세미나를 진행합니다. 맛있는 야식을 먹으면서 세미나를 듣습니다. AI 관련 주제는 언제든 환영합니다 :)',
   },
 ]
+
+// 학회의 일반적인 활동 소개이므로 Event가 아닌 ItemList/ListItem으로 표현합니다.
+// 활동 목록이 실제로 표시되는 활동 소개 페이지에서만 출력합니다.
+export const activityStructuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: 'HYAI 주요 활동',
+  itemListElement: activityItems.map((item, index) => ({
+    '@type': 'ListItem',
+    position: index + 1,
+    item: {
+      '@type': 'Thing',
+      name: item.name,
+      description: item.description,
+    },
+  })),
+}

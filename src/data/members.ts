@@ -113,3 +113,24 @@ export const executives: Member[] = [
     name: '이지안',
   },
 ].map((member) => ({ ...member, image: profileImage }))
+
+// 임원진 목록이 실제로 표시되는 구성원 페이지에서만 출력합니다.
+export const membersStructuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: 'HYAI 5기 임원진',
+  itemListElement: executives.map((member, index) => ({
+    '@type': 'ListItem',
+    position: index + 1,
+    item: {
+      '@type': 'Person',
+      name: member.name,
+      jobTitle: member.role,
+      affiliation: {
+        '@type': 'CollegeOrUniversity',
+        name: '한양대학교 ERICA',
+      },
+      description: `${member.department} ${member.grade}`,
+    },
+  })),
+}
