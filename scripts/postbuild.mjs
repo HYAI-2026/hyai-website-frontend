@@ -6,7 +6,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 
 const DIST = 'dist'
-const HOST = 'https://www.hyai.kr'
+const HOST = 'https://hyai.kr'
 
 if (!fs.existsSync(DIST)) {
   console.error(`❌ ${DIST} 디렉터리가 없습니다. 빌드가 먼저 실행되어야 합니다.`)

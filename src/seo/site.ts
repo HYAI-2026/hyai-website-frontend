@@ -1,7 +1,7 @@
-// 사이트 대표(canonical) 호스트. CNAME(www.hyai.kr) 및 Organization JSON-LD와 동일하게 통일합니다.
+// 사이트 대표(canonical) 호스트. CNAME(hyai.kr) 및 Organization JSON-LD와 동일하게 통일합니다.
 // 모든 canonical / og:url / sitemap URL 은 이 호스트를 사용해야 합니다.
 export const SITE = {
-  host: 'https://www.hyai.kr',
+  host: 'https://hyai.kr',
   name: 'HYAI',
   // <title> 뒤에 붙는 공통 접미사
   titleSuffix: ' | 한양대 ERICA 인공지능학회 HYAI',
