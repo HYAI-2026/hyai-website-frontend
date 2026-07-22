@@ -1,5 +1,6 @@
 import { Navigate, useParams } from 'react-router-dom'
 import { getLectureById } from '../../data/study'
+import Seo from '../../components/common/Seo'
 import styles from '../../assets/styles/StudyContent.module.css'
 
 export default function LectureDetailPage() {
@@ -12,6 +13,12 @@ export default function LectureDetailPage() {
 
   return (
     <section className={styles.panel}>
+      <Seo
+        title={`${lecture.title} - HYAI N주특강`}
+        description={lecture.paragraphs[0] ?? `${lecture.title} 강의 소개입니다.`}
+        path={`/study/lecture/${lecture.id}`}
+        image={lecture.image}
+      />
       <div className={styles.detailThumb}>
         <img src={lecture.image} alt="" />
       </div>

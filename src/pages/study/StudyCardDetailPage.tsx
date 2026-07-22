@@ -4,6 +4,7 @@ import {
   type StudyCategory,
   studyCategoryPaths,
 } from '../../data/study'
+import Seo from '../../components/common/Seo'
 import styles from '../../assets/styles/StudyContent.module.css'
 
 interface Props {
@@ -21,6 +22,12 @@ export default function StudyCardDetailPage({ category }: Props) {
 
   return (
     <section className={styles.panel}>
+      <Seo
+        title={item.title}
+        description={item.paragraphs[0] ?? `${item.title} 소개입니다.`}
+        path={`${listPath}/${item.id}`}
+        image={item.image}
+      />
       <div
         className={`${styles.detailThumb} ${category === 'seminar' || category === 'night-seminar' ? styles.detailThumbNatural : ''}`}
       >

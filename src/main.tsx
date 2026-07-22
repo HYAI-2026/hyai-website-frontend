@@ -1,15 +1,9 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import { BrowserRouter } from 'react-router-dom'
-import App from './App'
+import { ViteReactSSG } from 'vite-react-ssg'
+import { routes } from './routes'
 import './assets/font.css'
 import './assets/animation.css'
 import './assets/styles/index.css'
 
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  </StrictMode>,
-)
+// vite-react-ssg 엔트리. 빌드 시 정적 HTML 을 생성하고, 브라우저에서 hydration 합니다.
+// 별도의 createRoot / BrowserRouter 는 vite-react-ssg 가 내부적으로 처리합니다.
+export const createRoot = ViteReactSSG({ routes })

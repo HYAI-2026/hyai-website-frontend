@@ -1,5 +1,6 @@
 import { Navigate, useParams } from 'react-router-dom'
 import { getGalleryItem } from '../../data/gallery'
+import Seo from '../../components/common/Seo'
 import styles from '../../assets/styles/StudyContent.module.css'
 
 export default function GalleryDetailPage() {
@@ -12,6 +13,12 @@ export default function GalleryDetailPage() {
 
   return (
     <section className={styles.panel}>
+      <Seo
+        title={item.title}
+        description={item.description || `${item.title} 갤러리 사진입니다.`}
+        path={`/activities/gallery/${item.id}`}
+        image={item.image}
+      />
       <div className={`${styles.detailThumb} ${styles.detailThumbNatural}`}>
         <img src={item.image} alt="" loading="lazy" />
       </div>

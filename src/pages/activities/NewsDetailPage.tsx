@@ -2,6 +2,9 @@ import { useEffect, useState } from 'react'
 import { Navigate, useParams } from 'react-router-dom'
 import useEmblaCarousel from 'embla-carousel-react'
 import { getNewsPost } from '../../data/news'
+import Seo from '../../components/common/Seo'
+import StructuredData from '../../components/common/StructuredData'
+import { SITE } from '../../seo/site'
 import styles from '../../assets/styles/StudyContent.module.css'
 import carouselStyles from '../../assets/styles/HaigoDetail.module.css'
 
@@ -13,8 +16,27 @@ export default function NewsDetailPage() {
     return <Navigate to="/activities" replace />
   }
 
+  const description = post.paragraphs[0] ?? `${post.title} 소식입니다.`
+  const articleStructuredData = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: post.title,
+    description,
+    image: post.thumbnail ? `${SITE.host}${post.thumbnail}` : undefined,
+    author: { '@type': 'Organization', name: 'HYAI' },
+    publisher: { '@type': 'Organization', name: 'HYAI' },
+    mainEntityOfPage: `${SITE.host}/activities/news/${post.id}`,
+  }
+
   return (
     <section className={styles.panel}>
+      <Seo
+        title={post.title}
+        description={description}
+        path={`/activities/news/${post.id}`}
+        image={post.thumbnail}
+      />
+      <StructuredData data={articleStructuredData} />
       <h2 className={styles.heading}>{post.title}</h2>
       <p className={styles.detailMeta}>
         <span className={styles.detailDate}>{post.date}</span>

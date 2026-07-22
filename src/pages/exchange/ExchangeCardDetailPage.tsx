@@ -1,8 +1,10 @@
 import { Navigate, useParams } from 'react-router-dom'
 import {
   getExchangeCard,
+  getExchangeDetailPath,
   exchangeCategoryPaths,
 } from '../../data/exchange'
+import Seo from '../../components/common/Seo'
 import styles from '../../assets/styles/StudyContent.module.css'
 
 interface Props {
@@ -20,6 +22,12 @@ export default function ExchangeCardDetailPage({ category }: Props) {
 
   return (
     <section className={styles.panel}>
+      <Seo
+        title={item.title}
+        description={item.paragraphs[0] ?? `${item.title} 소개입니다.`}
+        path={getExchangeDetailPath(category, item.id)}
+        image={item.image}
+      />
       <div className={`${styles.detailThumb} ${styles.detailThumbNatural}`}>
         <img src={item.image} alt="" loading="lazy" />
       </div>

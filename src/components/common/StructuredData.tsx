@@ -1,22 +1,20 @@
-import { useEffect } from 'react'
-
 type StructuredDataProps = {
   data: Record<string, unknown>
 }
 
-// 해당 콘텐츠가 실제로 표시되는 페이지에서만 JSON-LD를 <head>에 주입합니다.
-// SPA 특성상 다른 라우트로 이동하면 구조화 데이터가 남지 않도록 언마운트 시 제거합니다.
+// JSON-LD 를 정적으로 빌드된 HTML 에 <script type="application/ld+json"> 로 직접 포함시킵니다.
+// (useEffect / document.head 를 쓰지 않으므로 크롤러가 초기 HTML 에서 바로 읽을 수 있습니다.)
+// '<' 를 유니코드 이스케이프하여 </script> 주입 등 XSS 를 방지합니다.
 export default function StructuredData({ data }: StructuredDataProps) {
-  useEffect(() => {
-    const script = document.createElement('script')
-    script.type = 'application/ld+json'
-    script.textContent = JSON.stringify(data)
-    document.head.appendChild(script)
+  const json = JSON.stringify(data)
+    .replace(/</g, '\\u003c')
+    .replace(/>/g, '\\u003e')
+    .replace(/&/g, '\\u0026')
 
-    return () => {
-      document.head.removeChild(script)
-    }
-  }, [data])
-
-  return null
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: json }}
+    />
+  )
 }
