@@ -2,6 +2,7 @@ export const introductionNav = [
   { label: '소개', path: '/introduction' },
   { label: '연혁 및 현황', path: '/introduction/history' },
   { label: '활동 소개', path: '/introduction/activities' },
+  { label: '학회캐릭터', path: '/introduction/character' },
 ] as const
 
 export const overviewContent = {
@@ -80,6 +81,14 @@ export const activityItems: ActivityItem[] = [
       '학회원 4명에게 신청 받아 세미나를 진행합니다. 맛있는 야식을 먹으면서 세미나를 듣습니다. AI 관련 주제는 언제든 환영합니다 :)',
   },
 ]
+
+export const characterContent = {
+  name: '이아',
+  designer: '옥재원',
+  date: '2026.09.09',
+  description:
+    'AI는 무궁무진한 기술,학문이다. 개척하는 느낌이 있고 탐험가스러운 디자인+메탈릭+노이즈 성향의 디자인이다.',
+}
 
 // 학회의 일반적인 활동 소개이므로 Event가 아닌 ItemList/ListItem으로 표현합니다.
 // 활동 목록이 실제로 표시되는 활동 소개 페이지에서만 출력합니다.

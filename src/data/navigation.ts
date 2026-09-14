@@ -8,6 +8,7 @@ export const mainNav: NavItem[] = [
       { label: '소개', href: '/introduction' },
       { label: '연혁 및 현황', href: '/introduction/history' },
       { label: '활동소개', href: '/introduction/activities' },
+      { label: '학회캐릭터', href: '/introduction/character' },
     ],
   },
   {

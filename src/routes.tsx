@@ -8,6 +8,7 @@ import IntroductionLayout from './pages/introduction/IntroductionLayout'
 import OverviewPage from './pages/introduction/OverviewPage'
 import HistoryPage from './pages/introduction/HistoryPage'
 import ActivitiesPage from './pages/introduction/ActivitiesPage'
+import CharacterPage from './pages/introduction/CharacterPage'
 
 import MembersLayout from './pages/members/MembersLayout'
 import ExecutivesPage from './pages/members/ExecutivesPage'
@@ -63,6 +64,7 @@ export const routes: RouteRecord[] = [
           { index: true, element: <OverviewPage /> },
           { path: 'history', element: <HistoryPage /> },
           { path: 'activities', element: <ActivitiesPage /> },
+          { path: 'character', element: <CharacterPage /> },
         ],
       },
 
