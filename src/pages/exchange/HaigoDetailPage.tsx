@@ -1,17 +1,40 @@
 import { useEffect, useState } from 'react'
 import { Navigate, useParams } from 'react-router-dom'
 import useEmblaCarousel from 'embla-carousel-react'
-import { getHaigoGroup } from '../../data/haigo'
+import {
+  fetchHaigoGroup,
+  getHaigoGroup,
+  type HaigoGroup,
+} from '../../data/haigo'
 import Seo from '../../components/common/Seo'
 import styles from '../../assets/styles/StudyContent.module.css'
 import carouselStyles from '../../assets/styles/HaigoDetail.module.css'
 
 export default function HaigoDetailPage() {
   const { itemId } = useParams()
-  const group = getHaigoGroup(itemId)
+  const fallback = getHaigoGroup(itemId)
+  const [group, setGroup] = useState<HaigoGroup | undefined>(fallback)
+
+  useEffect(() => {
+    let cancelled = false
+    fetchHaigoGroup(itemId)
+      .then((next) => {
+        if (!cancelled && next) setGroup(next)
+      })
+      .catch((err) => {
+        console.error('Failed to load HY-GO group', err)
+      })
+    return () => {
+      cancelled = true
+    }
+  }, [itemId])
+
+  if (!fallback) {
+    return <Navigate to="/exchange" replace />
+  }
 
   if (!group) {
-    return <Navigate to="/exchange" replace />
+    return null
   }
 
   return (
@@ -20,14 +43,16 @@ export default function HaigoDetailPage() {
         title={`HY-GO! ${group.label}`}
         description={`HYAI 교류행사 HY-GO! ${group.label} 활동 사진과 조원(${group.members})을 소개합니다.`}
         path={`/exchange/haigo/${group.id}`}
-        image={group.thumbnail}
+        image={group.thumbnail || undefined}
       />
       <h2 className={styles.heading}>{group.label}</h2>
       <p className={styles.detailMeta}>
         <span className={styles.detailDate}>{group.date}</span>
         <span className={carouselStyles.members}>조원 : {group.members}</span>
       </p>
-      <HaigoImageCarousel images={group.images} label={group.label} />
+      {group.images.length > 0 ? (
+        <HaigoImageCarousel images={group.images} label={group.label} />
+      ) : null}
     </section>
   )
 }
@@ -38,13 +63,14 @@ function HaigoImageCarousel({ images, label }: { images: string[]; label: string
 
   useEffect(() => {
     if (!emblaApi) return
+    emblaApi.reInit()
     const onSelect = () => setSelected(emblaApi.selectedScrollSnap())
     onSelect()
     emblaApi.on('select', onSelect)
     return () => {
       emblaApi.off('select', onSelect)
     }
-  }, [emblaApi])
+  }, [emblaApi, images])
 
   return (
     <div className={carouselStyles.carousel}>

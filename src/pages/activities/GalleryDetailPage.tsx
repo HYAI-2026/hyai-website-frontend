@@ -1,14 +1,38 @@
+import { useEffect, useState } from 'react'
 import { Navigate, useParams } from 'react-router-dom'
-import { getGalleryItem } from '../../data/gallery'
+import {
+  fetchGalleryItem,
+  getGalleryItem,
+  type GalleryItem,
+} from '../../data/gallery'
 import Seo from '../../components/common/Seo'
 import styles from '../../assets/styles/StudyContent.module.css'
 
 export default function GalleryDetailPage() {
   const { itemId } = useParams()
-  const item = getGalleryItem(itemId)
+  const fallback = getGalleryItem(itemId)
+  const [item, setItem] = useState<GalleryItem | undefined>(fallback)
+
+  useEffect(() => {
+    let cancelled = false
+    fetchGalleryItem(itemId)
+      .then((next) => {
+        if (!cancelled && next) setItem(next)
+      })
+      .catch((err) => {
+        console.error('Failed to load gallery item', err)
+      })
+    return () => {
+      cancelled = true
+    }
+  }, [itemId])
+
+  if (!fallback) {
+    return <Navigate to="/activities/gallery" replace />
+  }
 
   if (!item) {
-    return <Navigate to="/activities/gallery" replace />
+    return null
   }
 
   return (
@@ -17,10 +41,10 @@ export default function GalleryDetailPage() {
         title={item.title}
         description={item.description || `${item.title} 갤러리 사진입니다.`}
         path={`/activities/gallery/${item.id}`}
-        image={item.image}
+        image={item.image || undefined}
       />
       <div className={`${styles.detailThumb} ${styles.detailThumbNatural}`}>
-        <img src={item.image} alt="" loading="lazy" />
+        {item.image ? <img src={item.image} alt="" loading="lazy" /> : null}
       </div>
       <h2 className={styles.heading}>{item.title}</h2>
       {(item.date || item.description) && (

@@ -1,28 +1,45 @@
 import { useCallback, useEffect, useState } from 'react'
 import useEmblaCarousel from 'embla-carousel-react'
 import Autoplay from 'embla-carousel-autoplay'
-import { heroSlides } from '../../data/home'
+import { fetchHeroSlides } from '../../data/home'
+import type { HeroSlide } from '../../types'
 import styles from '../../assets/styles/HeroSlider.module.css'
 
 const AUTOPLAY_MS = 5000
 
 export default function HeroSlider() {
+  const [slides, setSlides] = useState<HeroSlide[]>([])
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [
     Autoplay({ delay: AUTOPLAY_MS, stopOnInteraction: false }),
   ])
   const [selected, setSelected] = useState(0)
   const [playing, setPlaying] = useState(true)
-  const count = heroSlides.length
+  const count = slides.length
+
+  useEffect(() => {
+    let cancelled = false
+    fetchHeroSlides()
+      .then((next) => {
+        if (!cancelled) setSlides(next)
+      })
+      .catch((err) => {
+        console.error('Failed to load hero slides', err)
+      })
+    return () => {
+      cancelled = true
+    }
+  }, [])
 
   useEffect(() => {
     if (!emblaApi) return
+    emblaApi.reInit()
     const onSelect = () => setSelected(emblaApi.selectedScrollSnap())
     onSelect()
     emblaApi.on('select', onSelect)
     return () => {
       emblaApi.off('select', onSelect)
     }
-  }, [emblaApi])
+  }, [emblaApi, slides])
 
   const togglePlay = useCallback(() => {
     const autoplay = emblaApi?.plugins()?.autoplay
@@ -35,11 +52,15 @@ export default function HeroSlider() {
     })
   }, [emblaApi])
 
+  if (count === 0) {
+    return <section className={styles.hero} aria-label="메인 슬라이드" />
+  }
+
   return (
     <section className={styles.hero} aria-label="메인 슬라이드">
       <div className={styles.viewport} ref={emblaRef}>
         <div className={styles.container}>
-          {heroSlides.map((slide, index) => (
+          {slides.map((slide, index) => (
             <div className={styles.slide} key={slide.id}>
               <img className={styles.image} src={slide.image} alt="" />
               {(slide.title || slide.description) && (

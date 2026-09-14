@@ -1,9 +1,26 @@
-import { lectures } from '../../data/study'
+import { useEffect, useState } from 'react'
+import { fetchLectures, type Lecture } from '../../data/study'
 import PostCard from '../../components/common/PostCard'
 import Seo from '../../components/common/Seo'
 import styles from '../../assets/styles/StudyContent.module.css'
 
 export default function LecturePage() {
+  const [lectures, setLectures] = useState<Lecture[]>([])
+
+  useEffect(() => {
+    let cancelled = false
+    fetchLectures()
+      .then((next) => {
+        if (!cancelled) setLectures(next)
+      })
+      .catch((err) => {
+        console.error('Failed to load lectures', err)
+      })
+    return () => {
+      cancelled = true
+    }
+  }, [])
+
   return (
     <section className={styles.panel}>
       <Seo

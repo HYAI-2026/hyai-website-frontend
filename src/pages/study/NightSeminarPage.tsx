@@ -1,9 +1,26 @@
-import { nightSeminars } from '../../data/study'
+import { useEffect, useState } from 'react'
+import { fetchNightSeminars, type StudyCard } from '../../data/study'
 import PostCard from '../../components/common/PostCard'
 import Seo from '../../components/common/Seo'
 import styles from '../../assets/styles/StudyContent.module.css'
 
 export default function NightSeminarPage() {
+  const [seminars, setSeminars] = useState<StudyCard[]>([])
+
+  useEffect(() => {
+    let cancelled = false
+    fetchNightSeminars()
+      .then((next) => {
+        if (!cancelled) setSeminars(next)
+      })
+      .catch((err) => {
+        console.error('Failed to load night seminars', err)
+      })
+    return () => {
+      cancelled = true
+    }
+  }, [])
+
   return (
     <section className={styles.panel}>
       <Seo
@@ -13,7 +30,7 @@ export default function NightSeminarPage() {
       />
       <h2 className={styles.heading}>야식사업세미나</h2>
       <div className={styles.lectureGrid}>
-        {nightSeminars.map((seminar, index) => (
+        {seminars.map((seminar, index) => (
           <PostCard
             key={seminar.id}
             post={{

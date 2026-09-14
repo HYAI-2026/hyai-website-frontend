@@ -1,11 +1,27 @@
-import { useRef } from 'react'
-import { homeNewsPosts } from '../../data/news'
+import { useEffect, useRef, useState } from 'react'
+import { fetchHomeNewsPosts } from '../../data/news'
+import type { PostCard } from '../../types'
 import CardCarousel, { CarouselArrows } from '../common/CardCarousel'
 import type { CardCarouselHandle } from '../common/CardCarousel'
 import styles from '../../assets/styles/Section.module.css'
 
 export default function NewsSection() {
   const carouselRef = useRef<CardCarouselHandle>(null)
+  const [posts, setPosts] = useState<PostCard[]>([])
+
+  useEffect(() => {
+    let cancelled = false
+    fetchHomeNewsPosts()
+      .then((next) => {
+        if (!cancelled) setPosts(next)
+      })
+      .catch((err) => {
+        console.error('Failed to load home news', err)
+      })
+    return () => {
+      cancelled = true
+    }
+  }, [])
 
   return (
     <section id="board" className={styles.section}>
@@ -24,7 +40,7 @@ export default function NewsSection() {
             onNext={() => carouselRef.current?.scrollNext()}
           />
         </div>
-        <CardCarousel ref={carouselRef} posts={homeNewsPosts} />
+        <CardCarousel ref={carouselRef} posts={posts} />
       </div>
     </section>
   )

@@ -1,9 +1,26 @@
-import { groupStudies } from '../../data/study'
+import { useEffect, useState } from 'react'
+import { fetchGroupStudies, type StudyCard } from '../../data/study'
 import PostCard from '../../components/common/PostCard'
 import Seo from '../../components/common/Seo'
 import styles from '../../assets/styles/StudyContent.module.css'
 
 export default function GroupStudyPage() {
+  const [groups, setGroups] = useState<StudyCard[]>([])
+
+  useEffect(() => {
+    let cancelled = false
+    fetchGroupStudies()
+      .then((next) => {
+        if (!cancelled) setGroups(next)
+      })
+      .catch((err) => {
+        console.error('Failed to load group studies', err)
+      })
+    return () => {
+      cancelled = true
+    }
+  }, [])
+
   return (
     <section className={styles.panel}>
       <Seo
@@ -13,7 +30,7 @@ export default function GroupStudyPage() {
       />
       <h2 className={styles.heading}>자율그룹스터디</h2>
       <div className={styles.lectureGrid}>
-        {groupStudies.map((group, index) => (
+        {groups.map((group, index) => (
           <PostCard
             key={group.id}
             post={{

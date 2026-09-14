@@ -1,9 +1,30 @@
-import { galleryItems, getGalleryDetailPath } from '../../data/gallery'
+import { useEffect, useState } from 'react'
+import {
+  fetchGalleryItems,
+  getGalleryDetailPath,
+  type GalleryItem,
+} from '../../data/gallery'
 import PostCard from '../../components/common/PostCard'
 import Seo from '../../components/common/Seo'
 import styles from '../../assets/styles/StudyContent.module.css'
 
 export default function GalleryPage() {
+  const [items, setItems] = useState<GalleryItem[]>([])
+
+  useEffect(() => {
+    let cancelled = false
+    fetchGalleryItems()
+      .then((next) => {
+        if (!cancelled) setItems(next)
+      })
+      .catch((err) => {
+        console.error('Failed to load gallery items', err)
+      })
+    return () => {
+      cancelled = true
+    }
+  }, [])
+
   return (
     <section className={styles.panel}>
       <Seo
@@ -13,7 +34,7 @@ export default function GalleryPage() {
       />
       <h2 className={styles.heading}>갤러리</h2>
       <div className={styles.lectureGrid}>
-        {galleryItems.map((item, index) => (
+        {items.map((item, index) => (
           <PostCard
             key={item.id}
             post={{

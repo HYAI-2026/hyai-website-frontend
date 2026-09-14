@@ -1,7 +1,4 @@
-const imageModules = import.meta.glob<string>(
-  '../pages/exchange/images/hygo*/*.{jpeg,jpg,png}',
-  { eager: true, import: 'default' },
-)
+import { supabase } from '../lib/supabase'
 
 export interface HaigoGroup {
   id: string
@@ -13,6 +10,7 @@ export interface HaigoGroup {
   images: string[]
 }
 
+// thumbnailIndex 는 hygo_2026_1.image_order 와 매칭됩니다. 이미지는 Supabase 에서 불러옵니다.
 const groupMeta = [
   { groupNumber: 1, members: '김다인, 박성철, 황원준, 구준영', date: '26.03~26.05', thumbnailIndex: 1 },
   { groupNumber: 2, members: '최건희, 이규한, 문상훈, 이미혜, 이승연', date: '26.03~26.05', thumbnailIndex: 1 },
@@ -26,35 +24,70 @@ const groupMeta = [
   { groupNumber: 11, members: '정민서, 김태성, 이우열, 하나근', date: '26.03~26.05', thumbnailIndex: 7 },
 ] as const
 
-function getImageIndex(path: string) {
-  const match = path.match(/-(\d+)\.(jpeg|jpg|png)$/i)
-  return match ? parseInt(match[1], 10) : 0
+// SSG 경로 생성용. 이미지는 fetchHaigoGroups 로 채웁니다.
+export const haigoGroups: HaigoGroup[] = groupMeta.map((meta) => ({
+  id: `group-${meta.groupNumber}`,
+  groupNumber: meta.groupNumber,
+  label: `${meta.groupNumber}조`,
+  members: meta.members,
+  date: meta.date,
+  thumbnail: '',
+  images: [],
+}))
+
+type HygoRow = {
+  group_number: number
+  image_url: string
+  image_order: number
 }
 
-function loadGroupImages(groupNumber: number) {
-  return Object.entries(imageModules)
-    .filter(([path]) => path.includes(`/hygo${groupNumber}/`))
-    .sort(([a], [b]) => getImageIndex(a) - getImageIndex(b))
-    .map(([, src]) => src)
-}
+export async function fetchHaigoGroups(): Promise<HaigoGroup[]> {
+  const { data, error } = await supabase
+    .from('hygo_2026_1')
+    .select('group_number, image_url, image_order')
+    .order('group_number', { ascending: true })
+    .order('image_order', { ascending: true })
 
-export const haigoGroups: HaigoGroup[] = groupMeta.map((meta) => {
-  const images = loadGroupImages(meta.groupNumber)
-  const thumbnail = images[meta.thumbnailIndex] ?? images[0]
-
-  return {
-    id: `group-${meta.groupNumber}`,
-    groupNumber: meta.groupNumber,
-    label: `${meta.groupNumber}조`,
-    members: meta.members,
-    date: meta.date,
-    thumbnail,
-    images,
+  if (error) {
+    throw error
   }
-})
+
+  const rows = (data ?? []) as HygoRow[]
+  const imagesByGroup = new Map<number, string[]>()
+
+  for (const row of rows) {
+    const list = imagesByGroup.get(row.group_number) ?? []
+    list.push(row.image_url)
+    imagesByGroup.set(row.group_number, list)
+  }
+
+  return groupMeta.flatMap((meta) => {
+    const images = imagesByGroup.get(meta.groupNumber) ?? []
+    if (images.length === 0) return []
+    return [
+      {
+        id: `group-${meta.groupNumber}`,
+        groupNumber: meta.groupNumber,
+        label: `${meta.groupNumber}조`,
+        members: meta.members,
+        date: meta.date,
+        thumbnail: images[meta.thumbnailIndex] ?? images[0],
+        images,
+      },
+    ]
+  })
+}
 
 export function getHaigoGroup(id: string | undefined) {
   return haigoGroups.find((group) => group.id === id)
+}
+
+export async function fetchHaigoGroup(
+  id: string | undefined,
+): Promise<HaigoGroup | undefined> {
+  if (!id) return undefined
+  const all = await fetchHaigoGroups()
+  return all.find((group) => group.id === id)
 }
 
 export function getHaigoDetailPath(id: string) {

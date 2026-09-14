@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Navigate, useParams } from 'react-router-dom'
 import useEmblaCarousel from 'embla-carousel-react'
-import { getNewsPost } from '../../data/news'
+import { fetchNewsPost, getNewsPost, type NewsPost } from '../../data/news'
 import Seo from '../../components/common/Seo'
 import StructuredData from '../../components/common/StructuredData'
 import { SITE } from '../../seo/site'
@@ -10,19 +10,43 @@ import carouselStyles from '../../assets/styles/HaigoDetail.module.css'
 
 export default function NewsDetailPage() {
   const { itemId } = useParams()
-  const post = getNewsPost(itemId)
+  const fallback = getNewsPost(itemId)
+  const [post, setPost] = useState<NewsPost | undefined>(fallback)
 
-  if (!post) {
+  useEffect(() => {
+    let cancelled = false
+    fetchNewsPost(itemId)
+      .then((next) => {
+        if (!cancelled && next) setPost(next)
+      })
+      .catch((err) => {
+        console.error('Failed to load news post', err)
+      })
+    return () => {
+      cancelled = true
+    }
+  }, [itemId])
+
+  if (!fallback) {
     return <Navigate to="/activities" replace />
   }
 
+  if (!post) {
+    return null
+  }
+
   const description = post.paragraphs[0] ?? `${post.title} 소식입니다.`
+  const imageUrl = post.thumbnail
+    ? post.thumbnail.startsWith('http')
+      ? post.thumbnail
+      : `${SITE.host}${post.thumbnail}`
+    : undefined
   const articleStructuredData = {
     '@context': 'https://schema.org',
     '@type': 'Article',
     headline: post.title,
     description,
-    image: post.thumbnail ? `${SITE.host}${post.thumbnail}` : undefined,
+    image: imageUrl,
     author: { '@type': 'Organization', name: 'HYAI' },
     publisher: { '@type': 'Organization', name: 'HYAI' },
     mainEntityOfPage: `${SITE.host}/activities/news/${post.id}`,
@@ -34,14 +58,16 @@ export default function NewsDetailPage() {
         title={post.title}
         description={description}
         path={`/activities/news/${post.id}`}
-        image={post.thumbnail}
+        image={post.thumbnail || undefined}
       />
       <StructuredData data={articleStructuredData} />
       <h2 className={styles.heading}>{post.title}</h2>
       <p className={styles.detailMeta}>
         <span className={styles.detailDate}>{post.date}</span>
       </p>
-      <NewsImageCarousel images={post.images} label={post.title} />
+      {post.images.length > 0 ? (
+        <NewsImageCarousel images={post.images} label={post.title} />
+      ) : null}
       <div className={styles.text}>
         {post.paragraphs.map((paragraph) => (
           <p key={paragraph}>{paragraph}</p>
@@ -57,13 +83,14 @@ function NewsImageCarousel({ images, label }: { images: string[]; label: string 
 
   useEffect(() => {
     if (!emblaApi) return
+    emblaApi.reInit()
     const onSelect = () => setSelected(emblaApi.selectedScrollSnap())
     onSelect()
     emblaApi.on('select', onSelect)
     return () => {
       emblaApi.off('select', onSelect)
     }
-  }, [emblaApi])
+  }, [emblaApi, images])
 
   return (
     <div className={carouselStyles.carousel}>

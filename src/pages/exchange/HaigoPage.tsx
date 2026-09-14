@@ -1,9 +1,26 @@
-import { haigoGroups, getHaigoDetailPath } from '../../data/haigo'
+import { useEffect, useState } from 'react'
+import { fetchHaigoGroups, getHaigoDetailPath, type HaigoGroup } from '../../data/haigo'
 import PostCard from '../../components/common/PostCard'
 import Seo from '../../components/common/Seo'
 import styles from '../../assets/styles/StudyContent.module.css'
 
 export default function HaigoPage() {
+  const [groups, setGroups] = useState<HaigoGroup[]>([])
+
+  useEffect(() => {
+    let cancelled = false
+    fetchHaigoGroups()
+      .then((next) => {
+        if (!cancelled) setGroups(next)
+      })
+      .catch((err) => {
+        console.error('Failed to load HY-GO groups', err)
+      })
+    return () => {
+      cancelled = true
+    }
+  }, [])
+
   return (
     <section className={styles.panel}>
       <Seo
@@ -13,7 +30,7 @@ export default function HaigoPage() {
       />
       <h2 className={styles.heading}>HY-GO!</h2>
       <div className={styles.lectureGrid}>
-        {haigoGroups.map((group, index) => (
+        {groups.map((group, index) => (
           <PostCard
             key={group.id}
             post={{

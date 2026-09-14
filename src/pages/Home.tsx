@@ -6,23 +6,13 @@ import IntroSection from '../components/home/IntroSection'
 import GallerySection from '../components/home/GallerySection'
 import Seo from '../components/common/Seo'
 import StructuredData from '../components/common/StructuredData'
-import { SITE } from '../seo/site'
-
-const websiteStructuredData = {
-  '@context': 'https://schema.org',
-  '@type': 'WebSite',
-  name: '한양대학교 ERICA 인공지능학회 HYAI',
-  alternateName: 'HYAI',
-  url: `${SITE.host}/`,
-  description: SITE.defaultDescription,
-  inLanguage: 'ko-KR',
-}
+import { SITE, websiteStructuredData } from '../seo/site'
 
 export default function Home() {
   return (
     <>
       <Seo
-        title="한양대학교 ERICA 인공지능학회 HYAI"
+        title={SITE.fullName}
         description={SITE.defaultDescription}
         path="/"
         noSuffix

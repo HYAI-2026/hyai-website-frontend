@@ -1,9 +1,26 @@
-import { newsPosts, getNewsDetailPath } from '../../data/news'
+import { useEffect, useState } from 'react'
+import { fetchNewsPosts, getNewsDetailPath, type NewsPost } from '../../data/news'
 import PostCard from '../../components/common/PostCard'
 import Seo from '../../components/common/Seo'
 import styles from '../../assets/styles/StudyContent.module.css'
 
 export default function NewsPage() {
+  const [posts, setPosts] = useState<NewsPost[]>([])
+
+  useEffect(() => {
+    let cancelled = false
+    fetchNewsPosts()
+      .then((next) => {
+        if (!cancelled) setPosts(next)
+      })
+      .catch((err) => {
+        console.error('Failed to load news posts', err)
+      })
+    return () => {
+      cancelled = true
+    }
+  }, [])
+
   return (
     <section className={styles.panel}>
       <Seo
@@ -13,7 +30,7 @@ export default function NewsPage() {
       />
       <h2 className={styles.heading}>학회 소식</h2>
       <div className={styles.lectureGrid}>
-        {newsPosts.map((post, index) => (
+        {posts.map((post, index) => (
           <PostCard
             key={post.id}
             post={{

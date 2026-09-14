@@ -1,7 +1,10 @@
+import { useEffect, useState } from 'react'
 import { Navigate, useParams } from 'react-router-dom'
 import {
+  fetchInvitedLecture,
   getInvitedLecture,
   getInvitedLectureDetailPath,
+  type InvitedLecture,
   type InvitedLectureCategory,
   invitedLectureCategoryPaths,
 } from '../../data/invitedLectures'
@@ -14,11 +17,30 @@ interface Props {
 
 export default function InvitedLectureDetailPage({ category }: Props) {
   const { itemId } = useParams()
-  const lecture = getInvitedLecture(category, itemId)
+  const fallback = getInvitedLecture(category, itemId)
+  const [lecture, setLecture] = useState<InvitedLecture | undefined>(fallback)
   const listPath = invitedLectureCategoryPaths[category]
 
-  if (!lecture) {
+  useEffect(() => {
+    let cancelled = false
+    fetchInvitedLecture(category, itemId)
+      .then((next) => {
+        if (!cancelled && next) setLecture(next)
+      })
+      .catch((err) => {
+        console.error('Failed to load invited lecture', err)
+      })
+    return () => {
+      cancelled = true
+    }
+  }, [category, itemId])
+
+  if (!fallback) {
     return <Navigate to={listPath} replace />
+  }
+
+  if (!lecture) {
+    return null
   }
 
   return (
@@ -27,10 +49,10 @@ export default function InvitedLectureDetailPage({ category }: Props) {
         title={lecture.title}
         description={lecture.paragraphs[0] ?? `${lecture.title} 강연 소개입니다.`}
         path={getInvitedLectureDetailPath(category, lecture.id)}
-        image={lecture.image}
+        image={lecture.image || undefined}
       />
       <div className={`${styles.detailThumb} ${styles.detailThumbNatural}`}>
-        <img src={lecture.image} alt="" />
+        {lecture.image ? <img src={lecture.image} alt="" /> : null}
       </div>
       <h2 className={styles.heading}>{lecture.title}</h2>
       <p className={styles.detailMeta}>

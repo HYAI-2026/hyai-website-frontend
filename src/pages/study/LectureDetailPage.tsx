@@ -1,14 +1,34 @@
+import { useEffect, useState } from 'react'
 import { Navigate, useParams } from 'react-router-dom'
-import { getLectureById } from '../../data/study'
+import { fetchLectureById, getLectureById, type Lecture } from '../../data/study'
 import Seo from '../../components/common/Seo'
 import styles from '../../assets/styles/StudyContent.module.css'
 
 export default function LectureDetailPage() {
   const { lectureId } = useParams()
-  const lecture = getLectureById(lectureId)
+  const fallback = getLectureById(lectureId)
+  const [lecture, setLecture] = useState<Lecture | undefined>(fallback)
+
+  useEffect(() => {
+    let cancelled = false
+    fetchLectureById(lectureId)
+      .then((next) => {
+        if (!cancelled && next) setLecture(next)
+      })
+      .catch((err) => {
+        console.error('Failed to load lecture', err)
+      })
+    return () => {
+      cancelled = true
+    }
+  }, [lectureId])
+
+  if (!fallback) {
+    return <Navigate to="/study" replace />
+  }
 
   if (!lecture) {
-    return <Navigate to="/study" replace />
+    return null
   }
 
   return (
@@ -17,10 +37,10 @@ export default function LectureDetailPage() {
         title={`${lecture.title} - HYAI N주특강`}
         description={lecture.paragraphs[0] ?? `${lecture.title} 강의 소개입니다.`}
         path={`/study/lecture/${lecture.id}`}
-        image={lecture.image}
+        image={lecture.image || undefined}
       />
       <div className={styles.detailThumb}>
-        <img src={lecture.image} alt="" />
+        {lecture.image ? <img src={lecture.image} alt="" /> : null}
       </div>
       <h2 className={styles.heading}>{lecture.title}</h2>
       <p className={styles.detailMeta}>
