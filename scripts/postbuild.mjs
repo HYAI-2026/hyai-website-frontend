@@ -1,7 +1,3 @@
-// SSG 빌드 후처리:
-//  1) dist 에 실제로 생성된 모든 index.html 을 스캔해 sitemap.xml 생성
-//     (실제 출력물 기준이므로 SSG 경로와 sitemap 이 절대 어긋나지 않음)
-//  2) GitHub Pages 커스텀 404 를 위해 dist/404/index.html -> dist/404.html 복사
 import fs from 'node:fs'
 import path from 'node:path'
 
