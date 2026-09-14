@@ -18,7 +18,8 @@
   min-width: 0;
 }
 
-.slide img {
+.slide img,
+.slide video {
   width: 100%;
   height: auto;
   max-height: 560px;

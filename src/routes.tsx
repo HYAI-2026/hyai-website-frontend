@@ -69,7 +69,14 @@ export const routes: RouteRecord[] = [
       {
         path: 'members',
         element: <MembersLayout />,
-        children: [{ index: true, element: <ExecutivesPage /> }],
+        children: [
+          { index: true, element: <ExecutivesPage cohort="5-1" /> },
+          { path: '1', element: <ExecutivesPage cohort="1" /> },
+          { path: '2', element: <ExecutivesPage cohort="2" /> },
+          { path: '3', element: <ExecutivesPage cohort="3" /> },
+          { path: '4', element: <ExecutivesPage cohort="4" /> },
+          { path: '5-2', element: <ExecutivesPage cohort="5-2" /> },
+        ],
       },
 
       {

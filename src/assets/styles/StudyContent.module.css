@@ -71,7 +71,8 @@
   background: #f8f9fb;
 }
 
-.detailThumbNatural img {
+.detailThumbNatural img,
+.detailThumbNatural video {
   width: 100%;
   height: auto;
   object-fit: contain;

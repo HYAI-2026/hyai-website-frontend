@@ -13,7 +13,14 @@ export const mainNav: NavItem[] = [
   {
     label: '구성원',
     href: '/members',
-    children: [{ label: '5기 임원진', href: '/members' }],
+    children: [
+      { label: '1기 임원진', href: '/members/1' },
+      { label: '2기 임원진', href: '/members/2' },
+      { label: '3기 임원진', href: '/members/3' },
+      { label: '4기 임원진', href: '/members/4' },
+      { label: '5-1기 임원진', href: '/members' },
+      { label: '5-2기 임원진', href: '/members/5-2' },
+    ],
   },
   {
     label: '학술활동',

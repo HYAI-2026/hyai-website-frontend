@@ -29,7 +29,7 @@ export default function GalleryPage() {
     <section className={styles.panel}>
       <Seo
         title="갤러리"
-        description="벚꽃행사, 임원 회식, 대학축제 등 HYAI 학회원들의 활동 사진 갤러리입니다."
+        description="벚꽃행사, LT, 가두모집 등 HYAI 학회원들의 활동 사진 갤러리입니다."
         path="/activities/gallery"
       />
       <h2 className={styles.heading}>갤러리</h2>
