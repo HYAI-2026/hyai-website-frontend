@@ -5,7 +5,7 @@ on:
     branches: [main]
   workflow_dispatch:
 
-# GitHub Pages 배포에 필요한 권한
+# GitHub Pages 배포에 필요한 권한이다.
 permissions:
   contents: read
   pages: write
