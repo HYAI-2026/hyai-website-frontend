@@ -1,9 +1,30 @@
-import { getMogakcoDetailPath, visibleMogakcoSessions } from '../../data/mogakco'
+import { useEffect, useState } from 'react'
+import {
+  fetchMogakcoSessions,
+  getMogakcoDetailPath,
+  type MogakcoSession,
+} from '../../data/mogakco'
 import PostCard from '../../components/common/PostCard'
 import Seo from '../../components/common/Seo'
 import styles from '../../assets/styles/StudyContent.module.css'
 
 export default function MogakcoPage() {
+  const [sessions, setSessions] = useState<MogakcoSession[]>([])
+
+  useEffect(() => {
+    let cancelled = false
+    fetchMogakcoSessions()
+      .then((next) => {
+        if (!cancelled) setSessions(next)
+      })
+      .catch((err) => {
+        console.error('Failed to load mogakco sessions', err)
+      })
+    return () => {
+      cancelled = true
+    }
+  }, [])
+
   return (
     <section className={styles.panel}>
       <Seo
@@ -13,7 +34,7 @@ export default function MogakcoPage() {
       />
       <h2 className={styles.heading}>모각코</h2>
       <div className={`${styles.lectureGrid} ${styles.mogakcoGrid}`}>
-        {visibleMogakcoSessions.map((session, index) => (
+        {sessions.map((session, index) => (
           <PostCard
             key={session.id}
             post={{

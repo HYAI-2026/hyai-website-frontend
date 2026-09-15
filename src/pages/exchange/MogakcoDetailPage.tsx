@@ -1,14 +1,38 @@
+import { useEffect, useState } from 'react'
 import { Navigate, useParams } from 'react-router-dom'
-import { getMogakcoSession } from '../../data/mogakco'
+import {
+  fetchMogakcoSession,
+  getMogakcoSession,
+  type MogakcoSession,
+} from '../../data/mogakco'
 import Seo from '../../components/common/Seo'
 import styles from '../../assets/styles/StudyContent.module.css'
 
 export default function MogakcoDetailPage() {
   const { itemId } = useParams()
-  const session = getMogakcoSession(itemId)
+  const fallback = getMogakcoSession(itemId)
+  const [session, setSession] = useState<MogakcoSession | undefined>(fallback)
+
+  useEffect(() => {
+    let cancelled = false
+    fetchMogakcoSession(itemId)
+      .then((next) => {
+        if (!cancelled && next) setSession(next)
+      })
+      .catch((err) => {
+        console.error('Failed to load mogakco session', err)
+      })
+    return () => {
+      cancelled = true
+    }
+  }, [itemId])
+
+  if (!fallback) {
+    return <Navigate to="/exchange/mogakco" replace />
+  }
 
   if (!session?.detailImage) {
-    return <Navigate to="/exchange/mogakco" replace />
+    return null
   }
 
   return (
