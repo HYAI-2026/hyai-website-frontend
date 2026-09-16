@@ -52,7 +52,9 @@ export default function InvitedLectureDetailPage({ category }: Props) {
         image={lecture.image || undefined}
       />
       <div className={`${styles.detailThumb} ${styles.detailThumbNatural}`}>
-        {lecture.image ? <img src={lecture.image} alt="" /> : null}
+        {lecture.image ? (
+          <img src={lecture.image} alt="" loading="lazy" decoding="async" />
+        ) : null}
       </div>
       <h2 className={styles.heading}>{lecture.title}</h2>
       <p className={styles.detailMeta}>

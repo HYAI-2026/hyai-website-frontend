@@ -47,7 +47,7 @@ export default function MogakcoDetailPage() {
         <span className={styles.detailDate}>{session.date}</span>
       </p>
       <div className={styles.detailThumb}>
-        <img src={session.detailImage} alt="" loading="lazy" />
+        <img src={session.detailImage} alt="" loading="lazy" decoding="async" />
       </div>
     </section>
   )

@@ -49,6 +49,8 @@ export default function ExecutivesPage({ cohort }: ExecutivesPageProps) {
               className={styles.photo}
               src={member.image}
               alt={`${member.name} 프로필 사진`}
+              loading="lazy"
+              decoding="async"
             />
             <div className={styles.info}>
               {member.role ? <p className={styles.role}>{member.role}</p> : null}

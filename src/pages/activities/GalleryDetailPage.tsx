@@ -56,7 +56,7 @@ export default function GalleryDetailPage() {
             isVideoUrl(item.image) ? (
               <video src={item.image} controls playsInline preload="metadata" />
             ) : (
-              <img src={item.image} alt="" loading="lazy" />
+              <img src={item.image} alt="" loading="lazy" decoding="async" />
             )
           ) : null}
         </div>
@@ -114,6 +114,7 @@ function GalleryMediaCarousel({
                   src={url}
                   alt={`${label} 사진 ${index + 1}`}
                   loading="lazy"
+                  decoding="async"
                 />
               )}
             </div>

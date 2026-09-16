@@ -12,7 +12,7 @@ export default function PostCard({ post }: Props) {
   const content = (
     <>
       <div className={styles.thumb}>
-        <img src={post.image} alt="" loading="lazy" />
+        <img src={post.image} alt="" loading="lazy" decoding="async" />
       </div>
       <div className={styles.body}>
         {post.title && <h3 className={styles.title}>{post.title}</h3>}

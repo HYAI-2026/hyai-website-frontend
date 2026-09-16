@@ -29,7 +29,7 @@ export default function ExchangeCardDetailPage({ category }: Props) {
         image={item.image}
       />
       <div className={`${styles.detailThumb} ${styles.detailThumbNatural}`}>
-        <img src={item.image} alt="" loading="lazy" />
+        <img src={item.image} alt="" loading="lazy" decoding="async" />
       </div>
       <h2 className={styles.heading}>{item.title}</h2>
       <p className={styles.detailMeta}>

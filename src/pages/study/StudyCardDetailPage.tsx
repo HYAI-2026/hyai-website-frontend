@@ -65,7 +65,9 @@ export default function StudyCardDetailPage({ category }: Props) {
       <div
         className={`${styles.detailThumb} ${category === 'seminar' || category === 'night-seminar' ? styles.detailThumbNatural : ''}`}
       >
-        {item.image ? <img src={item.image} alt="" /> : null}
+        {item.image ? (
+          <img src={item.image} alt="" loading="lazy" decoding="async" />
+        ) : null}
       </div>
       <h2 className={styles.heading}>{item.title}</h2>
       <p className={styles.detailMeta}>

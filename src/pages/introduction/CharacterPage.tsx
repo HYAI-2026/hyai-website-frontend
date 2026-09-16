@@ -14,7 +14,12 @@ export default function CharacterPage() {
       />
       <h2 className={styles.heading}>학회캐릭터</h2>
       <div className={styles.characterMedia}>
-        <img src={characterImage} alt={`학회캐릭터 ${characterContent.name}`} />
+        <img
+          src={characterImage}
+          alt={`학회캐릭터 ${characterContent.name}`}
+          loading="lazy"
+          decoding="async"
+        />
       </div>
       <dl className={styles.characterMeta}>
         <div>

@@ -62,7 +62,14 @@ export default function HeroSlider() {
         <div className={styles.container}>
           {slides.map((slide, index) => (
             <div className={styles.slide} key={slide.id}>
-              <img className={styles.image} src={slide.image} alt="" />
+              <img
+                className={styles.image}
+                src={slide.image}
+                alt=""
+                loading={index === 0 ? 'eager' : 'lazy'}
+                decoding="async"
+                fetchPriority={index === 0 ? 'high' : 'auto'}
+              />
               {(slide.title || slide.description) && (
                 <div
                   className={`${styles.caption} hero-caption ${

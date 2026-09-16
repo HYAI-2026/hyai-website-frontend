@@ -98,7 +98,12 @@ function NewsImageCarousel({ images, label }: { images: string[]; label: string 
         <div className={carouselStyles.container}>
           {images.map((image, index) => (
             <div className={carouselStyles.slide} key={image}>
-              <img src={image} alt={`${label} 사진 ${index + 1}`} loading="lazy" />
+              <img
+                src={image}
+                alt={`${label} 사진 ${index + 1}`}
+                loading="lazy"
+                decoding="async"
+              />
             </div>
           ))}
         </div>
