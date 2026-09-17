@@ -13,7 +13,6 @@ const config: UserConfig & {
   plugins: [react()],
   // 커스텀 도메인(hyai.kr) 배포이므로 루트 base 사용
   base: '/',
-  assetsInclude: ['**/*.mov'],
   // CJS 패키지들이 SSG(SSR) 렌더 시 default import interop 문제가 없도록
   // Vite 가 직접 변환하도록 강제합니다.
   ssr: {

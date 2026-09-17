@@ -49,3 +49,26 @@ export async function fetchHeroSlides(): Promise<HeroSlide[]> {
     }
   })
 }
+
+type VideoRow = {
+  name: string
+  video_url: string
+  sort_order: number
+}
+
+export async function fetchVideoUrl(name: string): Promise<string | null> {
+  const { data, error } = await supabase
+    .from('videos')
+    .select('name, video_url, sort_order')
+    .eq('name', name)
+    .order('sort_order', { ascending: true })
+    .limit(1)
+    .maybeSingle()
+
+  if (error) {
+    throw error
+  }
+
+  const row = data as VideoRow | null
+  return row?.video_url ?? null
+}
