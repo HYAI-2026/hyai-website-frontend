@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install *)",
+      "Bash(cd \"c:\\\\Users\\\\admin\\\\Desktop\\\\hyai-website-frontend/node_modules/vite-react-ssg\"; echo \"=== getStaticPaths usage in node build ===\"; grep -rn \"getStaticPaths\" dist/*.mjs dist/node/*.mjs dist/chunks/*.mjs 2>/dev/null | head; echo \"=== README dynamic route section ===\"; sed -n '/getStaticPaths/,/```/p' README.md 2>/dev/null | head -40)"
+    ],
+    "additionalDirectories": [
+      "C:\\Users\\admin\\Desktop\\hyai-website-frontend\\node_modules\\vite-react-ssg\\dist\\shared"
+    ]
+  }
+}

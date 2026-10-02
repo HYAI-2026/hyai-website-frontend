@@ -1,0 +1,148 @@
+import { useEffect, useState } from 'react'
+import { Navigate, useParams } from 'react-router-dom'
+import useEmblaCarousel from 'embla-carousel-react'
+import { fetchNewsPost, getNewsPost, type NewsPost } from '../../data/news'
+import Seo from '../../components/common/Seo'
+import StructuredData from '../../components/common/StructuredData'
+import { SITE } from '../../seo/site'
+import styles from '../../assets/styles/StudyContent.module.css'
+import carouselStyles from '../../assets/styles/HaigoDetail.module.css'
+
+export default function NewsDetailPage() {
+  const { itemId } = useParams()
+  const fallback = getNewsPost(itemId)
+  const [post, setPost] = useState<NewsPost | undefined>(fallback)
+
+  useEffect(() => {
+    let cancelled = false
+    fetchNewsPost(itemId)
+      .then((next) => {
+        if (!cancelled && next) setPost(next)
+      })
+      .catch((err) => {
+        console.error('Failed to load news post', err)
+      })
+    return () => {
+      cancelled = true
+    }
+  }, [itemId])
+
+  if (!fallback) {
+    return <Navigate to="/activities" replace />
+  }
+
+  if (!post) {
+    return null
+  }
+
+  const description = post.paragraphs[0] ?? `${post.title} 소식입니다.`
+  const imageUrl = post.thumbnail
+    ? post.thumbnail.startsWith('http')
+      ? post.thumbnail
+      : `${SITE.host}${post.thumbnail}`
+    : undefined
+  const articleStructuredData = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: post.title,
+    description,
+    image: imageUrl,
+    author: { '@type': 'Organization', name: 'HYAI' },
+    publisher: { '@type': 'Organization', name: 'HYAI' },
+    mainEntityOfPage: `${SITE.host}/activities/news/${post.id}`,
+  }
+
+  return (
+    <section className={styles.panel}>
+      <Seo
+        title={post.title}
+        description={description}
+        path={`/activities/news/${post.id}`}
+        image={post.thumbnail || undefined}
+      />
+      <StructuredData data={articleStructuredData} />
+      <h2 className={styles.heading}>{post.title}</h2>
+      <p className={styles.detailMeta}>
+        <span className={styles.detailDate}>{post.date}</span>
+      </p>
+      {post.images.length > 0 ? (
+        <NewsImageCarousel images={post.images} label={post.title} />
+      ) : null}
+      <div className={styles.text}>
+        {post.paragraphs.map((paragraph) => (
+          <p key={paragraph}>{paragraph}</p>
+        ))}
+      </div>
+    </section>
+  )
+}
+
+function NewsImageCarousel({ images, label }: { images: string[]; label: string }) {
+  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true })
+  const [selected, setSelected] = useState(0)
+
+  useEffect(() => {
+    if (!emblaApi) return
+    emblaApi.reInit()
+    const onSelect = () => setSelected(emblaApi.selectedScrollSnap())
+    onSelect()
+    emblaApi.on('select', onSelect)
+    return () => {
+      emblaApi.off('select', onSelect)
+    }
+  }, [emblaApi, images])
+
+  return (
+    <div className={carouselStyles.carousel}>
+      <div className={carouselStyles.viewport} ref={emblaRef}>
+        <div className={carouselStyles.container}>
+          {images.map((image, index) => (
+            <div className={carouselStyles.slide} key={image}>
+              <img
+                src={image}
+                alt={`${label} 사진 ${index + 1}`}
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className={carouselStyles.controls}>
+        <button
+          type="button"
+          className={carouselStyles.arrow}
+          onClick={() => emblaApi?.scrollPrev()}
+          aria-label="이전 사진"
+        >
+          <Chevron direction="left" />
+        </button>
+        <span className={carouselStyles.counter}>
+          <strong>{selected + 1}</strong> / {images.length}
+        </span>
+        <button
+          type="button"
+          className={carouselStyles.arrow}
+          onClick={() => emblaApi?.scrollNext()}
+          aria-label="다음 사진"
+        >
+          <Chevron direction="right" />
+        </button>
+      </div>
+    </div>
+  )
+}
+
+function Chevron({ direction }: { direction: 'left' | 'right' }) {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path
+        d={direction === 'left' ? 'M15 6l-6 6 6 6' : 'M9 6l6 6-6 6'}
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  )
+}

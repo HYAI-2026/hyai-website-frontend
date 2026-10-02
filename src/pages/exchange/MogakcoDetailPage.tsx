@@ -1,0 +1,54 @@
+import { useEffect, useState } from 'react'
+import { Navigate, useParams } from 'react-router-dom'
+import {
+  fetchMogakcoSession,
+  getMogakcoSession,
+  type MogakcoSession,
+} from '../../data/mogakco'
+import Seo from '../../components/common/Seo'
+import styles from '../../assets/styles/StudyContent.module.css'
+
+export default function MogakcoDetailPage() {
+  const { itemId } = useParams()
+  const fallback = getMogakcoSession(itemId)
+  const [session, setSession] = useState<MogakcoSession | undefined>(fallback)
+
+  useEffect(() => {
+    let cancelled = false
+    fetchMogakcoSession(itemId)
+      .then((next) => {
+        if (!cancelled && next) setSession(next)
+      })
+      .catch((err) => {
+        console.error('Failed to load mogakco session', err)
+      })
+    return () => {
+      cancelled = true
+    }
+  }, [itemId])
+
+  if (!fallback) {
+    return <Navigate to="/exchange/mogakco" replace />
+  }
+
+  if (!session?.detailImage) {
+    return null
+  }
+
+  return (
+    <section className={styles.panel}>
+      <Seo
+        title={`모각코 (${session.date})`}
+        description={`${session.date} 에 진행된 HYAI 모각코 활동입니다.`}
+        path={`/exchange/mogakco/${session.id}`}
+        image={session.detailImage}
+      />
+      <p className={styles.detailMeta}>
+        <span className={styles.detailDate}>{session.date}</span>
+      </p>
+      <div className={styles.detailThumb}>
+        <img src={session.detailImage} alt="" loading="lazy" decoding="async" />
+      </div>
+    </section>
+  )
+}
