@@ -66,6 +66,7 @@ export const topNav: NavItem[] = [
   { label: '소프트웨어융합대학', href: 'http://computing.hanyang.ac.kr/' },
   { label: 'SW중심대학사업단', href: 'https://computer.hanyang.ac.kr/' },
   { label: '인공지능학과', href: 'http://aix.hanyang.ac.kr/' },
+  { label: 'HY-GO', href: 'https://hygo.hyai.kr' },
 ]
 
 export const quickMenu: QuickMenuItem[] = [

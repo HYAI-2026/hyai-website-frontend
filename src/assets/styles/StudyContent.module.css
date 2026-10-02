@@ -22,6 +22,16 @@
   color: var(--color-text-muted);
 }
 
+.newsText p {
+  white-space: pre-line;
+  overflow-wrap: anywhere;
+}
+
+.newsText a {
+  color: var(--color-primary);
+  text-decoration: underline;
+}
+
 .lectureGrid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));

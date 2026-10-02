@@ -68,12 +68,24 @@ export default function NewsDetailPage() {
       {post.images.length > 0 ? (
         <NewsImageCarousel images={post.images} label={post.title} />
       ) : null}
-      <div className={styles.text}>
+      <div className={`${styles.text} ${styles.newsText}`}>
         {post.paragraphs.map((paragraph) => (
-          <p key={paragraph}>{paragraph}</p>
+          <p key={paragraph}>{linkify(paragraph)}</p>
         ))}
       </div>
     </section>
+  )
+}
+
+function linkify(text: string) {
+  return text.split(/(https?:\/\/\S+)/g).map((part, index) =>
+    /^https?:\/\//.test(part) ? (
+      <a key={index} href={part} target="_blank" rel="noopener noreferrer">
+        {part}
+      </a>
+    ) : (
+      part
+    ),
   )
 }
 

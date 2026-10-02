@@ -28,6 +28,7 @@ export const majorAwards = [
   '2025 한양대학교 SW/ICT/AI 학술대회 최우수상, 우수상 🥇🥈',
   '2025 한양또래튜터링 최우수, 우수 🥇🥈',
   '2025 지능형로봇사업단 WE-MEET 경진대회 장려(3위) 🥈',
+  '2026 IC-PBL 엑설런스상 (텐서프로그래밍) 🏅',
 ] as const
 
 function isNewsPath(pathname: string) {

@@ -53,6 +53,13 @@ const galleryContents: {
     description: '2026년 2학기 가두모집 현장 사진입니다.',
     date: '26.09.10',
   },
+  {
+    id: 'festival-2026-2',
+    groupKey: '2026-2-Festival', // storage 경로와 매칭
+    title: '한양문화제 동심',
+    description: '2026년 2학기 축제 사진과 영상입니다.',
+    date: '26.09.30',
+  },
 ]
 
 // SSG 경로 생성용. 이미지는 fetchGalleryItems 로 채웁니다.

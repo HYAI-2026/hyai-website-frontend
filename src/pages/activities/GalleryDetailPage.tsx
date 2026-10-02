@@ -8,6 +8,7 @@ import {
   type GalleryItem,
 } from '../../data/gallery'
 import Seo from '../../components/common/Seo'
+import LazyVideo from '../../components/common/LazyVideo'
 import styles from '../../assets/styles/StudyContent.module.css'
 import carouselStyles from '../../assets/styles/HaigoDetail.module.css'
 
@@ -54,7 +55,7 @@ export default function GalleryDetailPage() {
         <div className={`${styles.detailThumb} ${styles.detailThumbNatural}`}>
           {item.image ? (
             isVideoUrl(item.image) ? (
-              <video src={item.image} controls playsInline preload="metadata" />
+              <LazyVideo src={item.image} label={`${item.title} 영상`} />
             ) : (
               <img src={item.image} alt="" loading="lazy" decoding="async" />
             )
@@ -102,13 +103,7 @@ function GalleryMediaCarousel({
           {media.map((url, index) => (
             <div className={carouselStyles.slide} key={url}>
               {isVideoUrl(url) ? (
-                <video
-                  src={url}
-                  controls
-                  playsInline
-                  preload="metadata"
-                  aria-label={`${label} 영상 ${index + 1}`}
-                />
+                <LazyVideo src={url} label={`${label} 영상 ${index + 1}`} />
               ) : (
                 <img
                   src={url}

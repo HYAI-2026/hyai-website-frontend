@@ -1,5 +1,7 @@
 import { forwardRef, useImperativeHandle } from 'react'
 import useEmblaCarousel from 'embla-carousel-react'
+import type { EmblaCarouselType } from 'embla-carousel'
+import AutoScroll from 'embla-carousel-auto-scroll'
 import type { PostCard as PostCardType } from '../../types'
 import PostCard from './PostCard'
 import styles from '../../assets/styles/CardCarousel.module.css'
@@ -14,17 +16,29 @@ interface Props {
 }
 
 const CardCarousel = forwardRef<CardCarouselHandle, Props>(({ posts }, ref) => {
-  const [emblaRef, emblaApi] = useEmblaCarousel({
-    align: 'start',
-    slidesToScroll: 1,
-    containScroll: 'trimSnaps',
-  })
+  const [emblaRef, emblaApi] = useEmblaCarousel(
+    {
+      align: 'start',
+      slidesToScroll: 1,
+      loop: true,
+      dragFree: true,
+    },
+    [
+      AutoScroll({
+        speed: 0.8,
+        startDelay: 0,
+        stopOnInteraction: false,
+        stopOnMouseEnter: true,
+        stopOnFocusIn: false,
+      }),
+    ],
+  )
 
   useImperativeHandle(
     ref,
     () => ({
-      scrollPrev: () => emblaApi?.scrollPrev(),
-      scrollNext: () => emblaApi?.scrollNext(),
+      scrollPrev: () => stepThenResume(emblaApi, 'prev'),
+      scrollNext: () => stepThenResume(emblaApi, 'next'),
     }),
     [emblaApi],
   )
@@ -47,6 +61,22 @@ const CardCarousel = forwardRef<CardCarouselHandle, Props>(({ posts }, ref) => {
 CardCarousel.displayName = 'CardCarousel'
 
 export default CardCarousel
+
+// AutoScroll drives the scroll body itself, so it must be stopped before a manual step.
+function stepThenResume(emblaApi: EmblaCarouselType | undefined, direction: 'prev' | 'next') {
+  if (!emblaApi) return
+  const autoScroll = emblaApi.plugins().autoScroll
+  autoScroll?.stop()
+  if (direction === 'prev') emblaApi.scrollPrev()
+  else emblaApi.scrollNext()
+  emblaApi.off('settle', resume)
+  emblaApi.on('settle', resume)
+
+  function resume() {
+    emblaApi?.off('settle', resume)
+    autoScroll?.play()
+  }
+}
 
 interface ArrowsProps {
   onPrev: () => void
